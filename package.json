@@ -1,0 +1,11 @@
+{
+  "name": "rentastay",
+  "version": "1.0.0",
+  "description": "Renta Stay is a online marketplace that connects people whoe want to rent out their homes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "MS 2.O",
+  "license": "ISC"
+}
