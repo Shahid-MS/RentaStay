@@ -1,28 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout("/layouts/boilerPlate") %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Listings</title>
-</head>
+    <body>
 
-<body>
-    <h3>All Listings</h3>
-    <ul>
-        <% for(let listing of allListing) { %>
+        <div class="row d-flex justify-content-evenly">
 
-            <li>
-                <a href="/listings/<%= listing._id %>">
-                    <%= listing.title %>
+            <% for(let listing of allListing) { %>
+                <a href="/listings/<%= listing._id %>" class="col-lg-3 col-md-4 col-xs-6 mb-4 listings-link overlay-effect">
+                    <div class="card" style="width: 17rem;">
+                        <img src=" <%= listing.image %>" class="card-img-top" alt=" <%= listing.title %>"
+                            style="height: 15rem;">
+                        <div class="card-body">
+                            <b>
+                                <%= listing.title %>
+                            </b>
+                            <p class="card-text">
+                                &#8377; <%= listing.price.toLocaleString('en-IN') %> / night
+                            </p>
+                        </div>
+                    </div>
                 </a>
-            </li>
-            <% }%>
-    </ul>
+                <% }%>
 
-    <form action="/listings/new"><button>Create new List</button></form>
+        </div>
 
 
-</body>
 
-</html>
+
+    </body>

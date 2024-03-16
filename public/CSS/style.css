@@ -1,0 +1,64 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.navbar {
+  height: 5rem;
+}
+
+.fa-compass {
+  color: #fe424d;
+  font-size: 1.8rem;
+}
+
+.footer {
+  background-color: rgb(33, 37, 41);
+}
+
+.terms:hover {
+  font-size: 1.1rem;
+  text-decoration: underline;
+}
+
+.social-icon {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.social-icon:hover {
+  font-size: 1.4rem;
+}
+
+.card {
+  border: none;
+}
+.card-img-top {
+  border-radius: 1rem;
+  width: 100%;
+  object-fit: cover;
+}
+.card-text p {
+  font-weight: 400;
+}
+.card-body {
+  padding: 0;
+}
+
+.listings-link {
+  text-decoration: none;
+}
+
+.overlay-effect:hover {
+  opacity: 0.2;
+  background-color: #fff;
+}
+
+.btn-form {
+  background-color: #fe424d;
+  border: none;
+}
+
+.btn-form:hover {
+  background-color: #fe2935;
+}
