@@ -22,9 +22,17 @@
                     </p>
                     <div class="d-flex justify-content-center">
                         <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary me-3">Edit</a>
-                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post"><button
-                                class="btn btn-danger">Delete</button>
+                        <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+                            <!-- <button
+                                class="btn btn-danger">Delete</button> -->
+                            <button class="btn btn-danger" name="archive" type="submit" onclick="deleteFunction()">
+                                Delete
+                            </button>
                         </form>
+
+
+
+
                     </div>
 
                 </div>
