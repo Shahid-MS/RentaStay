@@ -80,7 +80,7 @@ app.post(
     if (result.error) {
       throw new ExpressError(400, result.error);
     }
-    
+
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -99,8 +99,10 @@ app.get(
 app.put(
   "/listings/:id",
   asyncWrap(async (req, res) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "Send Valid data for listing");
+    let result = listingSchema.validate(req.body);
+    // console.log(result);
+    if (result.error) {
+      throw new ExpressError(400, result.error);
     }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
