@@ -20,12 +20,15 @@
                     <div class="mb-3 col-md-6">
                         <label for="image" class="form-label">Image URL</label>
                         <input type="text" class="form-control" id="image" name="listing[image]"
-                            value="<%= listing.image %>">
+                            value="<%= listing.image %>" required>
+                        <div id="image" class="invalid-feedback">
+                            Please give image link
+                        </div>
                     </div>
 
                     <div class="mb-3 col-md-4">
                         <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" name="listing[price]"
+                        <input type="text" class="form-control" id="price" name="listing[price]"
                             value="<%= listing.price %>" required>
                         <div id="price" class="invalid-feedback">
                             Please give Price
