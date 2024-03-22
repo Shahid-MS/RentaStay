@@ -6,6 +6,8 @@ const Listing = require("./models/listings");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./Utils/asyncWrap");
 const ExpressError = require("./Utils/ExpressError");
+const { listingSchema } = require("./schema");
+const { threadId } = require("worker_threads");
 
 const app = express();
 const port = 8080;
@@ -73,9 +75,12 @@ app.get(
 app.post(
   "/listings",
   asyncWrap(async (req, res, next) => {
-    if (!req.body.listing) {
-      throw new ExpressError(400, "Send Valid data for listing");
+    let result = listingSchema.validate(req.body);
+    // console.log(result);
+    if (result.error) {
+      throw new ExpressError(400, result.error);
     }
+    
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
