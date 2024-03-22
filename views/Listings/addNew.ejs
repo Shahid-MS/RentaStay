@@ -2,13 +2,16 @@
 
     <body>
 
-        <form action="/listings" method="post">
+        <form action="/listings" method="post" class="needs-validation" novalidate>
             <div class="container">
                 <div class="row">
 
                     <div class="mb-3 col-md-6">
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="listing[title]" required>
+                        <div id="title" class="invalid-feedback">
+                            Please give a title
+                        </div>
                     </div>
 
 
@@ -20,16 +23,25 @@
                     <div class="mb-3 col-md-4">
                         <label for="price" class="form-label">Price</label>
                         <input type="number" class="form-control" id="price" name="listing[price]" required>
+                        <div id="price" class="invalid-feedback">
+                            Please give Price
+                        </div>
                     </div>
 
                     <div class="mb-3 col-md-8">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="listing[location]" required>
+                        <div id="location" class="invalid-feedback">
+                            Please give a location
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="country" class="form-label">Country</label>
                         <input type="text" class="form-control" id="country" name="listing[country]" required>
+                        <div id="country" class="invalid-feedback">
+                            Please give a country
+                        </div>
                     </div>
 
                     <div class="mb-3">

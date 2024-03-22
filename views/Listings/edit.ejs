@@ -1,7 +1,7 @@
 <% layout("/layouts/boilerPlate") %>
 
     <body>
-        <form action="/listings/<%= listing._id %>/?_method=PUT" method="post">
+        <form action="/listings/<%= listing._id %>/?_method=PUT" method="post" class="needs-validation" novalidate>
 
 
             <div class="container">
@@ -11,6 +11,9 @@
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" id="title" name="listing[title]"
                             value="<%= listing.title %>" required>
+                        <div id="title" class="invalid-feedback">
+                            Please give a title
+                        </div>
                     </div>
 
 
@@ -24,18 +27,27 @@
                         <label for="price" class="form-label">Price</label>
                         <input type="number" class="form-control" id="price" name="listing[price]"
                             value="<%= listing.price %>" required>
+                        <div id="price" class="invalid-feedback">
+                            Please give Price
+                        </div>
                     </div>
 
                     <div class="mb-3 col-md-8">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="listing[location]"
                             value="<%= listing.location %>" required>
+                        <div id="location" class="invalid-feedback">
+                            Please give a location
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="country" class="form-label">Country</label>
                         <input type="text" class="form-control" id="country" name="listing[country]"
                             value="<%= listing.country %>" required>
+                        <div id="country" class="invalid-feedback">
+                            Please give a country
+                        </div>
                     </div>
 
                     <div class="mb-3">
