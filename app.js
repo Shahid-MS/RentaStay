@@ -50,6 +50,16 @@ app.get("/", (req, res) => {
 //   res.send("Successfully");
 // });
 
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  // console.log("Error in validate ", error);
+  if (error) {
+    throw new ExpressError(400, error);
+  } else {
+    next();
+  }
+};
+
 app.get(
   "/listings",
   asyncWrap(async (req, res) => {
@@ -74,13 +84,8 @@ app.get(
 
 app.post(
   "/listings",
+  validateListing,
   asyncWrap(async (req, res, next) => {
-    let result = listingSchema.validate(req.body);
-    // console.log(result);
-    if (result.error) {
-      throw new ExpressError(400, result.error);
-    }
-
     const newListing = new Listing(req.body.listing);
     await newListing.save();
     res.redirect("/listings");
@@ -98,12 +103,8 @@ app.get(
 
 app.put(
   "/listings/:id",
+  validateListing,
   asyncWrap(async (req, res) => {
-    let result = listingSchema.validate(req.body);
-    // console.log(result);
-    if (result.error) {
-      throw new ExpressError(400, result.error);
-    }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
     // console.log(newListing);
