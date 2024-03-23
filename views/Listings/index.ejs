@@ -5,11 +5,12 @@
         <div class="row d-flex justify-content-evenly">
 
             <% for(let listing of allListing) { %>
-                <a href="/listings/<%= listing._id %>" class="col-lg-3 col-md-4 col-xs-6 mb-4 listings-link overlay-effect">
-                    <div class="card" style="width: 17rem;">
-                        <img src=" <%= listing.image %>" class="card-img-top" alt=" <%= listing.title %>"
+                <a href="/listings/<%= listing._id %>"
+                    class="col-lg-3 col-md-4 col-xs-6 mb-4 listings-link overlay-effect">
+                    <div class="card card-listing" style="width: 17rem;">
+                        <img src=" <%= listing.image %>" class="card-img-top card-img-top-listing" alt=" <%= listing.title %>"
                             style="height: 15rem;">
-                        <div class="card-body">
+                        <div class="card-body card-body-listing">
                             <b>
                                 <%= listing.title %>
                             </b>

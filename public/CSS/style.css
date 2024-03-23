@@ -33,18 +33,18 @@ footer {
   font-size: 1.4rem;
 }
 
-.card {
+.card-listing {
   border: none;
 }
-.card-img-top {
+.card-img-top-listing {
   border-radius: 1rem;
   width: 100%;
   object-fit: cover;
 }
-.card-text p {
+.card-text-listing p {
   font-weight: 400;
 }
-.card-body {
+.card-body-listing {
   padding: 0;
 }
 
@@ -60,8 +60,10 @@ footer {
 .btn-form {
   background-color: #fe424d;
   border: none;
+  color: white;
 }
 
 .btn-form:hover {
   background-color: #fe2935;
+  color: white;
 }
