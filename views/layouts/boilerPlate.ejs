@@ -24,20 +24,21 @@
 <body>
     <!-- Include navbar -->
     <%- include("../Includes/navbar.ejs") %>
+        <%- include("../Includes/flash.ejs") %>
 
-        <!-- Main content -->
-        <div class="container mt-4">
-            <!-- Body content -->
-            <%- body %>
-        </div>
+            <!-- Main content -->
+            <div class="container mt-4">
+                <!-- Body content -->
+                <%- body %>
+            </div>
 
-        <!-- Include footer -->
-        <%- include("../Includes/footer.ejs") %>
+            <!-- Include footer -->
+            <%- include("../Includes/footer.ejs") %>
 
-            <!-- JavaScript libraries -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-            <script src="/JS/app.js"></script>
+                <!-- JavaScript libraries -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+                <script src="/JS/app.js"></script>
 
 </body>
 

@@ -2,13 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
-const Listing = require("./models/listings");
 const ejsMate = require("ejs-mate");
-const asyncWrap = require("./Utils/asyncWrap");
 const ExpressError = require("./Utils/ExpressError");
-const { listingSchema, reviewSchema } = require("./schema");
 const listings = require("./Routes/listings");
 const reviews = require("./Routes/reviews");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 const app = express();
 const port = 8080;
@@ -34,6 +33,26 @@ main()
     console.log(err);
   });
 
+const sessionOptions = {
+  secret: "mySuperSecretKey",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+app.use(session(sessionOptions));
+app.use(flash());
+
+
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  next();
+});
+
 app.use("/listings", listings);
 app.use("/listings/:id/reviews", reviews);
 
@@ -46,7 +65,9 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  // console.log(err);
   let { status = 500, message = "Something went Wrong!" } = err;
+
   res.status(status).render("Listings/error.ejs", { message });
   // res.status(status).send(message);
 });

@@ -2,27 +2,29 @@
 
     <body>
 
+
+
         <div class="row d-flex justify-content-evenly">
-
             <% for(let listing of allListing) { %>
-                <a href="/listings/<%= listing._id %>"
-                    class="col-lg-3 col-md-4 col-xs-6 mb-4 listings-link overlay-effect">
-                    <div class="card card-listing" style="width: 17rem;">
-                        <img src=" <%= listing.image %>" class="card-img-top card-img-top-listing" alt=" <%= listing.title %>"
-                            style="height: 15rem;">
-                        <div class="card-body card-body-listing">
-                            <b>
-                                <%= listing.title %>
-                            </b>
-                            <p class="card-text">
-                                &#8377; <%= listing.price.toLocaleString('en-IN') %> / night
-                            </p>
+                <div class="col-xl-3 col-lg-4 col-md-5 col-xs-6 mb-4 d-flex justify-content-center">
+                    <a href="/listings/<%= listing._id %>" class=" listings-link overlay-effect">
+                        <div class="card card-listing" style="width: 17rem;">
+                            <img src=" <%= listing.image %>" class="card-img-top card-img-top-listing"
+                                alt=" <%= listing.title %>" style="height: 15rem;">
+                            <div class="card-body card-body-listing">
+                                <b>
+                                    <%= listing.title %>
+                                </b>
+                                <p class="card-text">
+                                    &#8377; <%= listing.price.toLocaleString('en-IN') %> / night
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 <% }%>
-
         </div>
+
 
 
 
