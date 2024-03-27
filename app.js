@@ -4,10 +4,14 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./Utils/ExpressError");
-const listings = require("./Routes/listings");
-const reviews = require("./Routes/reviews");
+const listingsRoute = require("./Routes/listings");
+const reviewsRoute = require("./Routes/reviews");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user");
+const userRoute = require("./Routes/user");
 
 const app = express();
 const port = 8080;
@@ -46,6 +50,13 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 
 app.use((req, res, next) => {
   res.locals.successMsg = req.flash("success");
@@ -53,12 +64,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/", userRoute);
+app.use("/listings", listingsRoute);
+app.use("/listings/:id/reviews", reviewsRoute);
 
 app.get("/", (req, res) => {
   res.send("Hii I am root");
 });
+
+
+
+
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(400, "Page not found!"));

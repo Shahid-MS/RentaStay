@@ -1,0 +1,38 @@
+<% layout("/layouts/boilerPlate") %>
+
+    <body>
+        <form action="/signup" method="post" class="needs-validation" novalidate>
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div id="email" class="invalid-feedback">
+                                Please provide a valid email
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                            <div id="username" class="invalid-feedback">
+                                Please provide a valid username
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                            <div id="password" class="invalid-feedback">
+                                Please provide a password
+                            </div>
+                        </div>
+                        <div class="mb-3 container text-center">
+                            <button class="btn btn-primary btn-form">Signup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </body>
