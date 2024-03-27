@@ -3,7 +3,7 @@ const Listing = require("../models/listings");
 const asyncWrap = require("../Utils/asyncWrap");
 const ExpressError = require("../Utils/ExpressError");
 const { listingSchema } = require("../schema");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, savedRedirectUrl } = require("../middleware");
 
 const router = express.Router();
 
@@ -27,7 +27,7 @@ router.get(
   })
 );
 
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", savedRedirectUrl, isLoggedIn, (req, res) => {
   res.render("Listings/addNew.ejs");
 });
 
@@ -58,6 +58,7 @@ router.post(
 
 router.get(
   "/:id/edit",
+  savedRedirectUrl,
   isLoggedIn,
   asyncWrap(async (req, res) => {
     let { id } = req.params;

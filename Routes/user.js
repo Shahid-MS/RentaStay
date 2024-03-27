@@ -2,6 +2,7 @@ const express = require("express");
 const User = require("../models/user");
 const asyncWrap = require("../Utils/asyncWrap");
 const passport = require("passport");
+const { savedRedirectUrl } = require("../middleware");
 const router = express.Router();
 
 router.get("/signup", (req, res) => {
@@ -19,8 +20,17 @@ router.post(
       });
       const regUser = await User.register(newUser, password);
       //   console.log(regUser);
-      req.flash("success", "Welcome to Renta Stay");
-      res.redirect("/listings");
+
+      req.login(regUser, (err) => {
+        if (err) {
+          next(err);
+        }
+        req.flash(
+          "success",
+          "Welcome to Renta Stay. Account created successfully"
+        );
+        res.redirect("/listings");
+      });
     } catch (e) {
       req.flash("error", e.message);
       res.redirect("/signup");
@@ -34,14 +44,17 @@ router.get("/login", (req, res) => {
 
 router.post(
   "/login",
-
+  savedRedirectUrl,
   passport.authenticate("local", {
     failureRedirect: "/login",
     failureFlash: true,
   }),
+
   asyncWrap(async (req, res) => {
+    let redirectUrl = res.locals.redirectUrl || "/listings";
+    console.log(redirectUrl);
     req.flash("success", "Welcome back to Renta Stay!");
-    res.redirect("/listings");
+    res.redirect(redirectUrl);
   })
 );
 
