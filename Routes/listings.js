@@ -35,7 +35,7 @@ router.get(
   "/:id",
   asyncWrap(async (req, res) => {
     let { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id).populate("reviews").populate("owner");
     if (!listing) {
       req.flash("error", `Listing with id : ${id} is not present`);
       res.redirect("/listings");

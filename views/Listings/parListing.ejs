@@ -17,14 +17,19 @@
                             <%= listing.price.toLocaleString("en-IN") %> / night
                     </p></b>
                     <p>
+                        owned by
+                        <b>
+                            <i>
+                                <%= listing.owner.username %>
+                            </i></b>
+                    </p>
+                    <p>
                         <%= listing.location %>,
                             <%= listing.country %>
                     </p>
                     <div class="d-flex justify-content-center">
                         <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary me-3">Edit</a>
                         <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
-                            <!-- <button
-                                class="btn btn-danger">Delete</button> -->
                             <button class="btn btn-danger" name="archive" type="submit" onclick="deleteFunction()">
                                 Delete
                             </button>
@@ -50,7 +55,8 @@
                                                     </p>
                                                     <form
                                                         action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
-                                                        method="post"> <button class="btn btn-sm btn-form">Delete</button>
+                                                        method="post"> <button
+                                                            class="btn btn-sm btn-form">Delete</button>
                                                     </form>
                                                 </div>
 
