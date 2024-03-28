@@ -9,9 +9,17 @@ const {
   validateListing,
 } = require("../middleware");
 
+
 const router = express.Router();
 
-router.get("/", asyncWrap(listingController.showListings));
+router
+  .route("/")
+  .get(asyncWrap(listingController.showListings))
+  .post(
+    isLoggedIn,
+    validateListing,
+    asyncWrap(listingController.createNewListing)
+  );
 
 router.get(
   "/new",
@@ -20,14 +28,16 @@ router.get(
   listingController.renderCreateListingForm
 );
 
-router.get("/:id", asyncWrap(listingController.showParticularListing));
-
-router.post(
-  "/",
-  isLoggedIn,
-  validateListing,
-  asyncWrap(listingController.createNewListing)
-);
+router
+  .route("/:id")
+  .get(asyncWrap(listingController.showParticularListing))
+  .put(
+    isLoggedIn,
+    isOwner,
+    validateListing,
+    asyncWrap(listingController.updateListing)
+  )
+  .delete(isLoggedIn, isOwner, asyncWrap(listingController.destroyListing));
 
 router.get(
   "/:id/edit",
@@ -35,21 +45,6 @@ router.get(
   isLoggedIn,
   isOwner,
   asyncWrap(listingController.renderEditForm)
-);
-
-router.put(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  validateListing,
-  asyncWrap(listingController.updateListing)
-);
-
-router.delete(
-  "/:id",
-  isLoggedIn,
-  isOwner,
-  asyncWrap(listingController.destroyListing)
 );
 
 module.exports = router;
