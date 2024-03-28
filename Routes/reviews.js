@@ -1,32 +1,22 @@
 const express = require("express");
 const Listing = require("../models/listings");
 const asyncWrap = require("../Utils/asyncWrap");
-const ExpressError = require("../Utils/ExpressError");
-const { reviewSchema } = require("../schema");
 const Review = require("../models/reviews");
+const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 
 const router = express.Router({ mergeParams: true });
-
-const validateReview = (req, res, next) => {
-  // console.log(req.body);
-  let { error } = reviewSchema.validate(req.body);
-  // console.log("Error in validate ", error);
-  if (error) {
-    const validationError = new ExpressError(400, error.message);
-    return next(validationError);
-  } else {
-    next();
-  }
-};
 
 //Review Routes
 router.post(
   "/",
+  isLoggedIn,
   validateReview,
   asyncWrap(async (req, res, next) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     const review = new Review(req.body.review);
+    review.author = req.user._id;
+    // console.log(review);
     listing.reviews.push(review);
     // console.log(review);
     await review.save();
@@ -39,6 +29,8 @@ router.post(
 //delete review route
 router.delete(
   "/:reviewId",
+  isLoggedIn,
+  isReviewAuthor,
   asyncWrap(async (req, res) => {
     let { id, reviewId } = req.params;
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

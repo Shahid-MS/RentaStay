@@ -52,7 +52,7 @@ router.post(
 
   asyncWrap(async (req, res) => {
     let redirectUrl = res.locals.redirectUrl || "/listings";
-    console.log(redirectUrl);
+    // console.log(redirectUrl);
     req.flash("success", "Welcome back to Renta Stay!");
     res.redirect(redirectUrl);
   })
