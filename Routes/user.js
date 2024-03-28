@@ -4,43 +4,13 @@ const asyncWrap = require("../Utils/asyncWrap");
 const passport = require("passport");
 const { savedRedirectUrl } = require("../middleware");
 const router = express.Router();
+const userController = require("../Controllers/user");
 
-router.get("/signup", (req, res) => {
-  res.render("Users/signup.ejs");
-});
+router.get("/signup", userController.renderSignupForm);
 
-router.post(
-  "/signup",
-  asyncWrap(async (req, res) => {
-    try {
-      let { username, email, password } = req.body;
-      const newUser = new User({
-        email,
-        username,
-      });
-      const regUser = await User.register(newUser, password);
-      //   console.log(regUser);
+router.post("/signup", asyncWrap(userController.signup));
 
-      req.login(regUser, (err) => {
-        if (err) {
-          next(err);
-        }
-        req.flash(
-          "success",
-          "Welcome to Renta Stay. Account created successfully"
-        );
-        res.redirect("/listings");
-      });
-    } catch (e) {
-      req.flash("error", e.message);
-      res.redirect("/signup");
-    }
-  })
-);
-
-router.get("/login", (req, res) => {
-  res.render("Users/login.ejs");
-});
+router.get("/login", userController.renderLoginForm);
 
 router.post(
   "/login",
@@ -50,22 +20,9 @@ router.post(
     failureFlash: true,
   }),
 
-  asyncWrap(async (req, res) => {
-    let redirectUrl = res.locals.redirectUrl || "/listings";
-    // console.log(redirectUrl);
-    req.flash("success", "Welcome back to Renta Stay!");
-    res.redirect(redirectUrl);
-  })
+  asyncWrap(userController.login)
 );
 
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    req.flash("success", "Logged Out Successfully");
-    res.redirect("/listings");
-  });
-});
+router.get("/logout", userController.logout);
 
 module.exports = router;

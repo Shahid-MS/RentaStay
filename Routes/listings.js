@@ -1,6 +1,6 @@
 const express = require("express");
-const Listing = require("../models/listings");
 const asyncWrap = require("../Utils/asyncWrap");
+const listingController = require("../Controllers/listings");
 
 const {
   isLoggedIn,
@@ -11,53 +11,22 @@ const {
 
 const router = express.Router();
 
-router.get(
-  "/",
-  asyncWrap(async (req, res) => {
-    const allListing = await Listing.find({});
-    // console.log(allListing);
-    res.render("Listings/index.ejs", { allListing });
-  })
-);
-
-router.get("/new", savedRedirectUrl, isLoggedIn, (req, res) => {
-  res.render("Listings/addNew.ejs");
-});
+router.get("/", asyncWrap(listingController.showListings));
 
 router.get(
-  "/:id",
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id)
-      .populate({
-        path: "reviews",
-        populate: {
-          path: "author",
-        },
-      })
-      .populate("owner");
-
-    // console.log(listing);
-    if (!listing) {
-      req.flash("error", `Listing with id : ${id} is not present`);
-      res.redirect("/listings");
-    }
-    // console.log(listing);
-    res.render("Listings/parListing.ejs", { listing });
-  })
+  "/new",
+  savedRedirectUrl,
+  isLoggedIn,
+  listingController.renderCreateListingForm
 );
+
+router.get("/:id", asyncWrap(listingController.showParticularListing));
 
 router.post(
   "/",
   isLoggedIn,
   validateListing,
-  asyncWrap(async (req, res, next) => {
-    const newListing = new Listing(req.body.listing);
-    newListing.owner = req.user._id;
-    await newListing.save();
-    req.flash("success", "Listing Added Successfully");
-    res.redirect("/listings");
-  })
+  asyncWrap(listingController.createNewListing)
 );
 
 router.get(
@@ -65,15 +34,7 @@ router.get(
   savedRedirectUrl,
   isLoggedIn,
   isOwner,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", `Listing with id : ${id} is not present`);
-      res.redirect("/listings");
-    }
-    res.render("Listings/edit.ejs", { listing });
-  })
+  asyncWrap(listingController.renderEditForm)
 );
 
 router.put(
@@ -81,26 +42,14 @@ router.put(
   isLoggedIn,
   isOwner,
   validateListing,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    // console.log(newListing);
-    req.flash("success", "Listing updated Successfully");
-    res.redirect("/listings/" + id);
-  })
+  asyncWrap(listingController.updateListing)
 );
 
 router.delete(
   "/:id",
   isLoggedIn,
   isOwner,
-  asyncWrap(async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    // console.log(newListing);
-    req.flash("success", "Listing deleted Successfully");
-    res.redirect("/listings");
-  })
+  asyncWrap(listingController.destroyListing)
 );
 
 module.exports = router;
