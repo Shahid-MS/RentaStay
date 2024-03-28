@@ -33,33 +33,38 @@ module.exports.showParticularListing = async (req, res) => {
 module.exports.createNewListing = async (req, res, next) => {
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
+  let url = req.file.path;
+  let filename = req.file.filename;
+  // console.log(url, filename);
+  newListing.image = { url, filename };
   await newListing.save();
+  console.log(newListing);
   req.flash("success", "Listing Added Successfully");
   res.redirect("/listings");
 };
 
 module.exports.renderEditForm = async (req, res) => {
-    let { id } = req.params;
-    const listing = await Listing.findById(id);
-    if (!listing) {
-      req.flash("error", `Listing with id : ${id} is not present`);
-      res.redirect("/listings");
-    }
-    res.render("Listings/edit.ejs", { listing });
-  }
-
-  module.exports.updateListing = async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-    // console.log(newListing);
-    req.flash("success", "Listing updated Successfully");
-    res.redirect("/listings/" + id);
-  }
-
-  module.exports.destroyListing = async (req, res) => {
-    let { id } = req.params;
-    await Listing.findByIdAndDelete(id);
-    // console.log(newListing);
-    req.flash("success", "Listing deleted Successfully");
+  let { id } = req.params;
+  const listing = await Listing.findById(id);
+  if (!listing) {
+    req.flash("error", `Listing with id : ${id} is not present`);
     res.redirect("/listings");
   }
+  res.render("Listings/edit.ejs", { listing });
+};
+
+module.exports.updateListing = async (req, res) => {
+  let { id } = req.params;
+  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  // console.log(newListing);
+  req.flash("success", "Listing updated Successfully");
+  res.redirect("/listings/" + id);
+};
+
+module.exports.destroyListing = async (req, res) => {
+  let { id } = req.params;
+  await Listing.findByIdAndDelete(id);
+  // console.log(newListing);
+  req.flash("success", "Listing deleted Successfully");
+  res.redirect("/listings");
+};

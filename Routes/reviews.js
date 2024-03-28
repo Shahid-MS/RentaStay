@@ -3,7 +3,9 @@ const asyncWrap = require("../Utils/asyncWrap");
 const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");
 const reviewController = require("../Controllers/reviews");
 
+
 const router = express.Router({ mergeParams: true });
+
 
 //Review Routes
 router.post(

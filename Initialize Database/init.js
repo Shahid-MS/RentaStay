@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("../models/listings");
 const initData = require("./initData");
+const newInitData = require("./newInitData");
 
 const app = express();
 const port = 8080;
@@ -26,12 +27,18 @@ main()
 const init = async () => {
   await Listing.deleteMany({});
 
-  initData.data = initData.data.map((obj) => ({
+  // initData.data = initData.data.map((obj) => ({
+  //   ...obj,
+  //   owner: "6603f8e490f62f20d07d4cb1",
+  // }));
+  // await Listing.insertMany(initData.data);
+
+  newInitData.data = newInitData.data.map((obj) => ({
     ...obj,
     owner: "6603f8e490f62f20d07d4cb1",
   }));
+  await Listing.insertMany(newInitData.data);
 
-  await Listing.insertMany(initData.data);
   console.log("Sample data is saved");
 };
 
