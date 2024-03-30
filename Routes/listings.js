@@ -42,6 +42,7 @@ router
   .put(
     isLoggedIn,
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     asyncWrap(listingController.updateListing)
   )

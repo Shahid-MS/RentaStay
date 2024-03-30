@@ -1,7 +1,8 @@
 <% layout("/layouts/boilerPlate") %>
 
     <body>
-        <form action="/listings/<%= listing._id %>/?_method=PUT" method="post" class="needs-validation" novalidate>
+        <form action="/listings/<%= listing._id %>/?_method=PUT" method="post" class="needs-validation"
+            enctype="multipart/form-data" novalidate>
 
 
             <div class="container">
@@ -16,17 +17,7 @@
                         </div>
                     </div>
 
-
                     <div class="mb-3 col-md-6">
-                        <label for="image" class="form-label">Image URL</label>
-                        <input type="text" class="form-control" id="image" name="listing[image]"
-                            value="<%= listing.image %>" required>
-                        <div id="image" class="invalid-feedback">
-                            Please give image link
-                        </div>
-                    </div>
-
-                    <div class="mb-3 col-md-4">
                         <label for="price" class="form-label">Price</label>
                         <input type="text" class="form-control" id="price" name="listing[price]"
                             value="<%= listing.price %>" required>
@@ -35,7 +26,19 @@
                         </div>
                     </div>
 
-                    <div class="mb-3 col-md-8">
+
+                    <div class="mb-3">
+                        <img src="<%= originalImgUrl %>" alt="">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="listing[image]">
+                    </div>
+
+
+
+                    <div class="mb-3 col-md-6">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" id="location" name="listing[location]"
                             value="<%= listing.location %>" required>
@@ -44,7 +47,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-3 col-md-6">
                         <label for="country" class="form-label">Country</label>
                         <input type="text" class="form-control" id="country" name="listing[country]"
                             value="<%= listing.country %>" required>

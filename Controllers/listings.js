@@ -1,4 +1,7 @@
 const Listing = require("../models/listings");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapToken = process.env.MAP_TOKEN;
+const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.showListings = async (req, res) => {
   const allListing = await Listing.find({});
@@ -37,8 +40,25 @@ module.exports.createNewListing = async (req, res, next) => {
   let filename = req.file.filename;
   // console.log(url, filename);
   newListing.image = { url, filename };
-  await newListing.save();
-  console.log(newListing);
+
+  let responseGeocoding = await geocodingClient
+    .forwardGeocode({
+      query: newListing.location + ", " + newListing.country,
+      limit: 1,
+    })
+    .send();
+
+  // console.log(responseGeocoding);
+  // console.log(responseGeocoding.body);
+  // console.log(responseGeocoding.body);
+  // console.log(responseGeocoding.body.features); Array of object as per limit
+  // console.log(responseGeocoding.body.features[0]);
+  // console.log(responseGeocoding.body.features[0].geometry);
+
+  newListing.geometry = responseGeocoding.body.features[0].geometry;
+
+  let savedListing = await newListing.save();
+  // console.log(savedListing);
   req.flash("success", "Listing Added Successfully");
   res.redirect("/listings");
 };
@@ -50,13 +70,21 @@ module.exports.renderEditForm = async (req, res) => {
     req.flash("error", `Listing with id : ${id} is not present`);
     res.redirect("/listings");
   }
-  res.render("Listings/edit.ejs", { listing });
+  let originalImgUrl = listing.image.url;
+  originalImgUrl = originalImgUrl.replace("/upload", "/upload/w-250");
+  res.render("Listings/edit.ejs", { listing, originalImgUrl });
 };
 
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  // console.log(newListing);
+  let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  if (typeof req.file !== "undefined") {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    listing.image = { url, filename };
+    await listing.save();
+  }
+
   req.flash("success", "Listing updated Successfully");
   res.redirect("/listings/" + id);
 };

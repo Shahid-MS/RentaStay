@@ -9,6 +9,7 @@
   "author": "MS 2.O",
   "license": "ISC",
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.15.5",
     "cloudinary": "^1.41.0",
     "connect-flash": "^0.1.1",
     "dotenv": "^16.4.5",

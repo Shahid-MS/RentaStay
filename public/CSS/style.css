@@ -67,3 +67,8 @@ footer {
   background-color: #fe2935;
   color: white;
 }
+
+#map {
+  width: 60vw;
+  height: 60vh;
+}
