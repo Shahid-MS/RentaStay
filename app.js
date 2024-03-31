@@ -7,8 +7,10 @@ const ExpressError = require("./Utils/ExpressError");
 const listingsRoute = require("./Routes/listings");
 const reviewsRoute = require("./Routes/reviews");
 const session = require("express-session");
+const mongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
+const mongoDb = require("mongodb");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
 const userRoute = require("./Routes/user");
@@ -16,6 +18,8 @@ const userRoute = require("./Routes/user");
 const app = express();
 const port = 8080;
 const MONGO_URL = "mongodb://127.0.0.1:27017/rentastay";
+const atlasDBUrl = process.env.ATLAS_DBUrl;
+// console.log(atlasDBUrl);
 
 app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
@@ -26,7 +30,8 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  // await mongoose.connect(MONGO_URL);
+  await mongoose.connect(atlasDBUrl);
 }
 
 main()
@@ -37,7 +42,20 @@ main()
     console.log(err);
   });
 
+const store = mongoStore.create({
+  mongoUrl: atlasDBUrl,
+  crypto: {
+    secret: "MySecretCode",
+  },
+  touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", () => {
+  console.log("error", err);
+});
+
 const sessionOptions = {
+  store: store,
   secret: "mySuperSecretKey",
   resave: false,
   saveUninitialized: true,
@@ -47,6 +65,7 @@ const sessionOptions = {
     httpOnly: true,
   },
 };
+
 app.use(session(sessionOptions));
 app.use(flash());
 
