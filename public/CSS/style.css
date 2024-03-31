@@ -5,6 +5,16 @@ body {
   min-height: 100vh;
 }
 
+#nav-renta {
+  color: #fe424d;
+  font-size: 1.5rem;
+}
+#add-listing {
+  border: 1px solid gray;
+  border-radius: 2rem;
+  padding: 0.5rem 1.3rem 0.5rem 1.3rem;
+}
+
 .fa-compass {
   color: #fe424d;
   font-size: 1.8rem;
@@ -71,4 +81,49 @@ footer {
 #map {
   width: 60vw;
   height: 60vh;
+}
+
+.filter {
+  opacity: 0.7;
+}
+
+.filter:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.filter img {
+  height: 2rem;
+  width: 2rem;
+}
+.filter p {
+  font-size: 0.8rem;
+}
+
+.taxes {
+  border: 1px solid grey;
+  padding: 0.7rem 1rem;
+  border-radius: 1.2rem;
+}
+
+.tax-info {
+  font-size: 0.8rem;
+  display: none;
+}
+
+.search {
+  border-radius: 2rem;
+  padding: 0.5rem 1.3rem 0.5rem 1.3rem;
+}
+
+.search-btn {
+  border-radius: 50%;
+  background-color: #fe424d;
+  color: white;
+  font-size: 1rem;
+}
+
+.search-btn:hover {
+  background-color: #fe2935;
+  color: white;
 }

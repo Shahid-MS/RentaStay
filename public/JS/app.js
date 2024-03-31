@@ -1,4 +1,3 @@
-
 //Delete
 function deleteFunction() {
   event.preventDefault(); // prevent form submit
@@ -48,3 +47,17 @@ function deleteFunction() {
     );
   });
 })();
+
+let taxSwitch = document.getElementById("tax-switch");
+taxSwitch.addEventListener("click", () => {
+  let taxInfo = document.getElementsByClassName("tax-info");
+  // console.log(taxInfo); Array of elements
+
+  for (let info of taxInfo) {
+    if (info.style.display != "inline") {
+      info.style.display = "inline";
+    } else {
+      info.style.display = "none";
+    }
+  }
+});

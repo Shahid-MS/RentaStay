@@ -1,20 +1,29 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom p-3">
     <div class="container-fluid">
-        <a class="navbar-brand ms-2" href="/"><i class="fa-solid fa-compass"></i> RentaStay</a>
+        <a class="navbar-brand ms-2" href="/"><i class="fa-solid fa-compass"></i></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse ms-1 d-flex justify-content-between" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse d-flex-md justify-content-between" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="/listings">All Listings</a>
-                <a class="nav-link" href="/listings/new">Create New listing</a>
+                <a class="nav-link" href="/listings" id="nav-renta"><b>RentaStay</b></a>
             </div>
+
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 search" type="search" placeholder="Search your destination"
+                    aria-label="Search">
+                <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+
             <div class="navbar-nav">
+                <div>
+                    <a class="nav-link" href="/listings/new" id="add-listing">RentaStay-Your home</a>
+                </div>
                 <% if (!currUser) { %>
-                    <a class="nav-link" href="/signup">SignUp</a>
-                    <a class="nav-link" href="/login">LogIn</a>
+                    <a class="nav-link" href="/signup"><b>SignUp</b></a>
+                    <a class="nav-link" href="/login"><b>LogIn</b></a>
                     <% } %>
 
                         <% if (currUser) { %>
@@ -25,3 +34,5 @@
         </div>
     </div>
 </nav>
+
+<%- include("./filter.ejs") %>
