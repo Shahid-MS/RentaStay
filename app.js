@@ -45,7 +45,7 @@ main()
 const store = mongoStore.create({
   mongoUrl: atlasDBUrl,
   crypto: {
-    secret: "MySecretCode",
+    secret: process.env.SECRET,
   },
   touchAfter: 24 * 60 * 60,
 });
@@ -56,7 +56,7 @@ store.on("error", () => {
 
 const sessionOptions = {
   store: store,
-  secret: "mySuperSecretKey",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
